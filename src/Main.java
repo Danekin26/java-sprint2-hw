@@ -19,7 +19,7 @@ public class Main {
                 if(command.equals("1")){
                     printNameFile(monthlyReport);
                 }else if(command.equals("2")){
-                    yearlyReport.loadFile("resources/y.2021.csv");
+                    yearlyReport.loadFile("resources/y.2021.csv", monthlyReport);
                 }else if(command.equals("3")){
                     checker.calculateSumProfitAndLoss(monthlyReport, yearlyReport);
                 }else if(command.equals("4")){

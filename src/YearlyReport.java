@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,32 +9,35 @@ public class YearlyReport {
     public HashMap<String, Integer> nameMonthToLoss = new HashMap<>();
     public HashMap<String, Integer> nameMonthToProfit = new HashMap<>();
 
-    public void loadFile(String path){
-        String content = readFileContentsOrNull(path);
 
-        String [] lines = content.split("\r?\n");
-        for (int i = 1; i<lines.length;i++){
+    public void loadFile(String path, MonthlyReport monthlyReport) {
+        String content = monthlyReport.readFileContentsOrNull(path);
 
-            String line = lines [i];
-            String [] parts = line.split(",");
+        if (content != null) {
+            String[] lines = content.split("\r?\n");
+            for (int i = 1; i < lines.length; i++) {
 
-            Integer month = Integer.parseInt(parts[0]);
-            Integer amount = Integer.parseInt(parts[1]);
-            Boolean expense = Boolean.parseBoolean(parts[2]);
+                String line = lines[i];
+                String[] parts = line.split(",");
 
-            String nameMonth = numMonthToNameMonth(month);
-            ReportToYear reportToYear = new ReportToYear(nameMonth, amount, expense);
-            reports.add(reportToYear);
-        }
+                Integer month = Integer.parseInt(parts[0]);
+                Integer amount = Integer.parseInt(parts[1]);
+                Boolean expense = Boolean.parseBoolean(parts[2]);
 
-        for (ReportToYear report : reports) {   // Сортировка мап на доход и расход
-            if (!report.expense) { // Доход
-                nameMonthToProfit.put(report.month, report.amount);
-            } else {
-                nameMonthToLoss.put(report.month, report.amount);
+                String nameMonth = numMonthToNameMonth(month);
+                ReportToYear reportToYear = new ReportToYear(nameMonth, amount, expense);
+                reports.add(reportToYear);
             }
+
+            for (ReportToYear report : reports) {   // Сортировка мап на доход и расход
+                if (!report.expense) { // Доход
+                    nameMonthToProfit.put(report.month, report.amount);
+                } else {
+                    nameMonthToLoss.put(report.month, report.amount);
+                }
+            }
+            reports.clear(); // Отчистка списка общей записи
         }
-        reports.clear(); // Отчистка списка общей записи
     }
 
     public String numMonthToNameMonth(Integer num){  // Перевод из номера месяца в название месяца
@@ -46,14 +46,6 @@ public class YearlyReport {
         return nameAllMonth[num-1];
     }
 
-    public String readFileContentsOrNull(String path){   // Считывание данных с файлов
-        try {
-            return Files.readString(Path.of(path));
-        } catch (IOException e){
-            System.out.println("Невозможно прочитать файл с месячным отчётом.");
-            return null;
-        }
-    }
     public void getInfo(){
         if((nameMonthToLoss.size() !=0) && (nameMonthToProfit.size() !=0)) {
             profit();// Вывод прибыли

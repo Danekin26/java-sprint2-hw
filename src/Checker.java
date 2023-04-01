@@ -28,7 +28,7 @@ public class Checker {
         }else{
             System.out.println("Файлы отчетов не загружены. Пожалуйста считайте отчёты и повторите попытку.");
         }
-        if(errorCorrelationCheck){
+        if(errorCorrelationCheck && fileCheck){
             System.out.println("В представленных отчетах расходы и доходы сошлись :)");
         }
 

@@ -13,7 +13,7 @@ public class MonthlyReport {
     public void loadFile (String path){
         String content = readFileContentsOrNull(path);
 
-        if(!(content==null)){
+        if(content !=null){
             reports = new ArrayList<>();
             countdownOfValidMonths.add(1);    // 1 записывается если файл отчета представлен в папке
 
@@ -41,7 +41,7 @@ public class MonthlyReport {
         try {
             return Files.readString(Path.of(path));
         } catch (IOException e){
-            System.out.println("Невозможно прочитать файл с месячным отчётом. Возможно файл не находится в нужной директории.");
+            System.out.println("Невозможно прочитать файл с отчётом. Запрашиваемые данные отсутствуют в директории.");
             return null;
         }
     }
