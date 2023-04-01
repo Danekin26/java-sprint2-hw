@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,8 +7,8 @@ public class MonthlyReport {
     public ArrayList<Integer> countdownOfValidMonths = new ArrayList<>(); // <-- Счётчик месяцев, отчет которых есть в папке.
     public ArrayList<ReportToMonth> reports;                            // Это позволяет по индексу списка точно опредлить
                                                                         // за какой месяц предоставлен отчет, а за какой нет
-    public void loadFile (String path){
-        String content = readFileContentsOrNull(path);
+    public void loadFile (String path, ReadDataFromFiles readDataFromFiles){
+        String content = readDataFromFiles.readFileContentsOrNull(path);
 
         if(content !=null){
             reports = new ArrayList<>();
@@ -37,18 +34,10 @@ public class MonthlyReport {
         writeToHashMap();    // Запись в HashMap
     }
 
-    public String readFileContentsOrNull(String path){   // Считывание данных с файлов
-        try {
-            return Files.readString(Path.of(path));
-        } catch (IOException e){
-            System.out.println("Невозможно прочитать файл с отчётом. Запрашиваемые данные отсутствуют в директории.");
-            return null;
-        }
-    }
-
     public void writeToHashMap(){  // Запись отчета в мапу
         String [] nameAllMonth = {
                 "Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"};
+
         int i = countdownOfValidMonths.size()-1;
             if(countdownOfValidMonths.get(i) == 1) {
                 monthToReport.put(nameAllMonth[i], reports);
@@ -62,7 +51,6 @@ public class MonthlyReport {
         Integer maxSum = 0;
 
         for(int i = 0;i<monthToReport.get(month).size();i++) {
-
             String name = monthToReport.get(month).get(i).title;
             Integer sumPrice = monthToReport.get(month).get(i).price * monthToReport.get(month).get(i).quantity;
 

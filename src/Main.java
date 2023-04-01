@@ -6,6 +6,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         MonthlyReport monthlyReport = new MonthlyReport();
         YearlyReport yearlyReport = new YearlyReport();
+        ReadDataFromFiles readDataFromFiles = new ReadDataFromFiles();
         Checker checker = new Checker();
         String command;
 
@@ -17,9 +18,9 @@ public class Main {
 
                 command = scan.nextLine();
                 if(command.equals("1")){
-                    printNameFile(monthlyReport);
+                    printNameFile(monthlyReport, readDataFromFiles);
                 }else if(command.equals("2")){
-                    yearlyReport.loadFile("resources/y.2021.csv", monthlyReport);
+                    yearlyReport.loadFile("resources/y.2021.csv", readDataFromFiles);
                 }else if(command.equals("3")){
                     checker.calculateSumProfitAndLoss(monthlyReport, yearlyReport);
                 }else if(command.equals("4")){
@@ -45,16 +46,16 @@ public class Main {
         System.out.println("5 - Вывести информацию о годовом отчёте");
         System.out.println("exit - Выход");
     }
-    public static void printNameFile(MonthlyReport monthlyReport){      // Считывание всех месяцев
+    public static void printNameFile(MonthlyReport monthlyReport, ReadDataFromFiles readDataFromFiles){      // Считывание всех месяцев
 
         monthlyReport.monthToReport.clear(); // Отчистка мапы и счётчика перед повторным считыванием
         monthlyReport.countdownOfValidMonths.clear();
                                                                             // Для считывания всех месяцев
         for(int i = 1;i<=3;i++) {                                           // следует изменить условие цикла (i<=12).
             if(i<=10){                                                      // Здесь это не сделано что бы не засорять консоль
-            monthlyReport.loadFile("resources/" + "m.20210"+i+".csv"); // т.к. в методе считывания файлов после каждой неудачной
+            monthlyReport.loadFile("resources/" + "m.20210"+i+".csv", readDataFromFiles); // т.к. в методе считывания файлов после каждой неудачной
             }else if(i<=12){                                                // попытки в консоль выводится ошибка чтения файла
-            monthlyReport.loadFile("resources/" + "m.2021"+i+".csv");
+            monthlyReport.loadFile("resources/" + "m.2021"+i+".csv", readDataFromFiles);
             }else{
                 return;
             }

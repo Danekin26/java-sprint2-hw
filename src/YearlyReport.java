@@ -3,20 +3,16 @@ import java.util.HashMap;
 
 public class YearlyReport {
 
-
-
     public ArrayList<ReportToYear> reports = new ArrayList<>();
     public HashMap<String, Integer> nameMonthToLoss = new HashMap<>();
     public HashMap<String, Integer> nameMonthToProfit = new HashMap<>();
 
-
-    public void loadFile(String path, MonthlyReport monthlyReport) {
-        String content = monthlyReport.readFileContentsOrNull(path);
+    public void loadFile(String path, ReadDataFromFiles readDataFromFiles) {
+        String content = readDataFromFiles.readFileContentsOrNull(path);
 
         if (content != null) {
             String[] lines = content.split("\r?\n");
             for (int i = 1; i < lines.length; i++) {
-
                 String line = lines[i];
                 String[] parts = line.split(",");
 
@@ -51,6 +47,7 @@ public class YearlyReport {
             profit();// Вывод прибыли
             averageLoss(); // Вывод среднего расхода
             averageProfit();
+
         }else{
             System.out.println("При выводе информации произошла ошибка.");
             System.out.println("Файлы не загружены. Пожалуйста считайте файлы и повторите попытку.");
@@ -67,6 +64,7 @@ public class YearlyReport {
         if(prof<0){
             System.out.println("В этом месяце не было прибыли.");
             System.out.println("Убыток составляет: "+ Math.abs(prof));
+
         }else{
             System.out.println("Прибыль в этом месяце составляет: "+prof);
         }
