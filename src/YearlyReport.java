@@ -25,55 +25,55 @@ public class YearlyReport {
                 reports.add(reportToYear);
             }
 
-            for (ReportToYear report : reports) {   // Сортировка мап на доход и расход
-                if (!report.expense) { // Доход
+            for (ReportToYear report : reports) {
+                if (!report.expense) {
                     nameMonthToProfit.put(report.month, report.amount);
                 } else {
                     nameMonthToLoss.put(report.month, report.amount);
                 }
             }
-            reports.clear(); // Отчистка списка общей записи
+            reports.clear();
         }
     }
 
-    public String numMonthToNameMonth(Integer num){  // Перевод из номера месяца в название месяца
-        String [] nameAllMonth = {
-                "Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"};
-        return nameAllMonth[num-1];
+    public String numMonthToNameMonth(Integer num) {
+        String[] nameAllMonth = {
+                "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+        return nameAllMonth[num - 1];
     }
 
-    public void getInfo(){
-        if((nameMonthToLoss.size() !=0) && (nameMonthToProfit.size() !=0)) {
-            profit();// Вывод прибыли
-            averageLoss(); // Вывод среднего расхода
+    public void getInfo() {
+        if ((!nameMonthToLoss.isEmpty()) && (!nameMonthToProfit.isEmpty())) {
+            profit();
+            averageLoss();
             averageProfit();
 
-        }else{
+        } else {
             System.out.println("При выводе информации произошла ошибка.");
             System.out.println("Файлы не загружены. Пожалуйста считайте файлы и повторите попытку.");
         }
     }
 
-    public void profit(){  // Прибыль
+    public void profit() {
         int prof;
-        for(String nameMonth : nameMonthToLoss.keySet()){
+        for (String nameMonth : nameMonthToLoss.keySet()) {
             System.out.println();
             System.out.println(nameMonth);
             prof = nameMonthToProfit.get(nameMonth) - nameMonthToLoss.get(nameMonth);
 
-        if(prof<0){
-            System.out.println("В этом месяце не было прибыли.");
-            System.out.println("Убыток составляет: "+ Math.abs(prof));
+            if (prof < 0) {
+                System.out.println("В этом месяце не было прибыли.");
+                System.out.println("Убыток составляет: " + Math.abs(prof));
 
-        }else{
-            System.out.println("Прибыль в этом месяце составляет: "+prof);
+            } else {
+                System.out.println("Прибыль в этом месяце составляет: " + prof);
+            }
         }
     }
-}
 
-    public void averageLoss(){ // Средний расход
+    public void averageLoss() {
         Integer avgLoss = 0;
-        for(String nameMonth : nameMonthToLoss.keySet()){
+        for (String nameMonth : nameMonthToLoss.keySet()) {
             avgLoss += nameMonthToLoss.get(nameMonth);
         }
         avgLoss /= nameMonthToLoss.size();
@@ -81,9 +81,9 @@ public class YearlyReport {
         System.out.println("Средний расход за все месяцы в году составляет: " + avgLoss);
     }
 
-    public void averageProfit(){ // Средний доход
+    public void averageProfit() {
         Integer avgProf = 0;
-        for(String nameMonth : nameMonthToProfit.keySet()){
+        for (String nameMonth : nameMonthToProfit.keySet()) {
             avgProf += nameMonthToProfit.get(nameMonth);
         }
         avgProf /= nameMonthToProfit.size();

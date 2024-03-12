@@ -4,10 +4,10 @@ import java.nio.file.Path;
 
 public class ReadDataFromFiles {
 
-    public String readFileContentsOrNull(String path){   // Считывание данных с файлов
+    public String readFileContentsOrNull(String path) {
         try {
             return Files.readString(Path.of(path));
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Невозможно прочитать файл с отчётом. Запрашиваемые данные отсутствуют в директории.");
             return null;
         }

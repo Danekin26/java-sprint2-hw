@@ -1,4 +1,4 @@
-public class ReportToMonth { // Объкт, описывающий месячный отчет
+public class ReportToMonth {
     public String title;
     public boolean expense;
     public int quantity;
@@ -10,6 +10,4 @@ public class ReportToMonth { // Объкт, описывающий месячн�
         this.quantity = quantity;
         this.price = price;
     }
-
-
 }

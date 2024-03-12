@@ -13,30 +13,34 @@ public class Main {
         System.out.println("Версия приложения: V.1.0");
         System.out.println("Добро пожаловать в приложение ведения бухгалтерии парка развлечений.");
 
-        while(true){
+        while (true) {
             printMenu();
-
-                command = scan.nextLine();
-                if(command.equals("1")){
+            command = scan.nextLine();
+            switch (command) {
+                case "1":
                     printNameFile(monthlyReport, readDataFromFiles);
-                }else if(command.equals("2")){
-                    yearlyReport.loadFile("resources/y.2021.csv", readDataFromFiles);
-                }else if(command.equals("3")){
-                    checker.calculateSumProfitAndLoss(monthlyReport, yearlyReport);
-                }else if(command.equals("4")){
-                    monthlyReport.getInfo();
-                }else if(command.equals("5")){
-                    yearlyReport.getInfo();
-                }else if(command.equals("exit")){
                     break;
-                }else{
-                    System.out.println("Увы :с");
-                    System.out.println("Такой команды нету.");
-                }
+                case "2":
+                    yearlyReport.loadFile("resources/y.2021.csv", readDataFromFiles);
+                    break;
+                case "3":
+                    checker.calculateSumProfitAndLoss(monthlyReport, yearlyReport);
+                    break;
+                case "4":
+                    monthlyReport.getInfo();
+                    break;
+                case "5":
+                    yearlyReport.getInfo();
+                    break;
+                case "exit":
+                    return;
+                default:
+                    System.out.println("Такой команды нету." + "\n" + "Попробуйте еще раз.");
+            }
         }
     }
 
-    static void printMenu(){        // Вывод меню
+    static void printMenu() {
         System.out.println();
         System.out.println("Выберите пункт из списка");
         System.out.println("1 - Считать все месячные отчёты");
@@ -46,17 +50,16 @@ public class Main {
         System.out.println("5 - Вывести информацию о годовом отчёте");
         System.out.println("exit - Выход");
     }
-    public static void printNameFile(MonthlyReport monthlyReport, ReadDataFromFiles readDataFromFiles){      // Считывание всех месяцев
 
-        monthlyReport.monthToReport.clear(); // Отчистка мапы и счётчика перед повторным считыванием
+    public static void printNameFile(MonthlyReport monthlyReport, ReadDataFromFiles readDataFromFiles) {
+        monthlyReport.monthToReport.clear();
         monthlyReport.countdownOfValidMonths.clear();
-                                                                            // Для считывания всех месяцев
-        for(int i = 1;i<=3;i++) {                                           // следует изменить условие цикла (i<=12).
-            if(i<=10){                                                      // Здесь это не сделано что бы не засорять консоль
-            monthlyReport.loadFile("resources/" + "m.20210"+i+".csv", readDataFromFiles); // т.к. в методе считывания файлов после каждой неудачной
-            }else if(i<=12){                                                // попытки в консоль выводится ошибка чтения файла
-            monthlyReport.loadFile("resources/" + "m.2021"+i+".csv", readDataFromFiles);
-            }else{
+        for (int i = 1; i <= 3; i++) {
+            if (i <= 10) {
+                monthlyReport.loadFile("resources/" + "m.20210" + i + ".csv", readDataFromFiles);
+            } else if (i <= 12) {
+                monthlyReport.loadFile("resources/" + "m.2021" + i + ".csv", readDataFromFiles);
+            } else {
                 return;
             }
         }

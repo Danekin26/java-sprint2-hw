@@ -1,36 +1,31 @@
 public class Checker {
 
-    public void calculateSumProfitAndLoss(MonthlyReport monthRep, YearlyReport yearlyReport){
-        Integer sumProfit;
-        Integer sumLoss;
+    public void calculateSumProfitAndLoss(MonthlyReport monthRep, YearlyReport yearlyReport) {
+        Integer sumProfitMonth;
+        Integer sumLossMonth;
         boolean errorCorrelationCheck = true;
-        boolean fileCheck = (monthRep.monthToReport.size() != 0) && (yearlyReport.nameMonthToLoss.size() != 0)
-                && (yearlyReport.nameMonthToProfit.size() != 0);   // Проверка на считывание файлов
+        boolean fileCheck = (!monthRep.monthToReport.isEmpty()) && (!yearlyReport.nameMonthToLoss.isEmpty())
+                && (!yearlyReport.nameMonthToProfit.isEmpty());
 
-        if(fileCheck) {
+        if (fileCheck) {
             for (String month : monthRep.monthToReport.keySet()) {
-                sumProfit = monthRep.getProfitLossValue(month, "profit"); // Доход за месяц
-                sumLoss = monthRep.getProfitLossValue(month, "loss"); // Расход за месяц
-
-                if (!yearlyReport.nameMonthToProfit.get(month).equals(sumProfit)) {  // Поиск значения дохода в мапе
-                    System.out.println(month);
-                    System.out.println("В этом месяце обнаружено несоответствие при подсчете доходов.");
+                sumProfitMonth = monthRep.getProfitLossValue(month, "profit");
+                sumLossMonth = monthRep.getProfitLossValue(month, "loss");
+                if (!yearlyReport.nameMonthToProfit.get(month).equals(sumProfitMonth)) {
+                    System.out.println(month + "\n" + "В этом месяце обнаружено несоответствие при подсчете доходов.");
                     errorCorrelationCheck = false;
                 }
 
-                if (!yearlyReport.nameMonthToLoss.get(month).equals(sumLoss)) {  // Поиск значения расхода в мапе
-                    System.out.println(month);
-                    System.out.println("В этом месяце обнаружено несоответствие при подсчете расходов");
+                if (!yearlyReport.nameMonthToLoss.get(month).equals(sumLossMonth)) {
+                    System.out.println(month + "\n" + "В этом месяце обнаружено несоответствие при подсчете расходов");
                     errorCorrelationCheck = false;
                 }
-
             }
-        }else{
+        } else {
             System.out.println("Файлы отчетов не загружены. Пожалуйста считайте отчёты и повторите попытку.");
         }
-        if(errorCorrelationCheck && fileCheck){
+        if (errorCorrelationCheck && fileCheck) {
             System.out.println("В представленных отчетах расходы и доходы сошлись :)");
         }
-
     }
 }
